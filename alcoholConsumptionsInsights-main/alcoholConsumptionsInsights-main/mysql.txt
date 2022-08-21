@@ -1,0 +1,69 @@
+#Create table
+CREATE TABLE shipping (country VARCHAR(255), 
+  beer SMALLINT, 
+  spirits SMALLINT, 
+  wine SMALLINT, 
+  alcohol FLOAT, 
+  continent VARCHAR(255));
+
+#Load and insert data
+LOAD DATA LOCAL INFILE '~/Desktop/Data_Science/alcohol/drinks.csv' 
+INTO TABLE alcohol
+COLUMNS TERMINATED BY ',';
+
+#Remove header row
+DELETE FROM alcohol 
+LIMIT 1;
+
+#Adjust continents for USA and Canada to North America
+UPDATE alcohol
+SET continent = 'NA'
+WHERE country = 'USA' OR country = 'Canada';
+
+#Which countries drink the most beer?
+SELECT country, beer 
+FROM alcohol 
+ORDER BY beer DESC 
+LIMIT 10;
+
+#Which continents drink the most beer?
+SELECT continent, AVG(beer)
+FROM alcohol
+GROUP BY continent
+ORDER BY AVG(beer) DESC;
+
+#Which countries drink the most wine?
+SELECT country, wine
+FROM alcohol
+ORDER BY wine DESC
+LIMIT 10;
+
+#Which continents drink the most wine?
+SELECT continent, AVG(wine)
+FROM alcohol
+GROUP BY continent
+ORDER BY AVG(wine) DESC;
+
+#Which countries drink the most spirits?
+SELECT country, spirits
+FROM alcohol
+ORDER BY spirits DESC
+LIMIT 10;
+
+#Which continents drink the most spirits?
+SELECT continent, AVG(spirits)
+FROM alcohol
+GROUP BY continent
+ORDER BY AVG(spirits) DESC;
+
+#Which countries drink the most pure alcohol?
+SELECT country, alcohol
+FROM alcohol
+ORDER BY alcohol DESC
+LIMIT 10;
+
+#Which continents drink the most pure alcohol?
+SELECT continent, AVG(alcohol)
+FROM alcohol
+GROUP BY continent
+ORDER BY AVG(alcohol) DESC;
